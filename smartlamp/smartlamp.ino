@@ -23,11 +23,14 @@
 
 
 int PINO_LED = 23;
-sint ledValue;
+int PINO_LDR = 36;
+int ledValue = 10;
 int ldrMax;
 
 void setup() {
   pinMode(PINO_LED, OUTPUT);
+  pinMode(PINO_LDR, OUTPUT);
+  analogWrite(PINO_LED,ledValue);
   Serial.begin(9600);
 }
 
@@ -52,7 +55,7 @@ void processCommand(String command) {
     if (ledValue >= 0 && ledValue <= 100 ) {
       // valor maior que 0 ,  liga led
       if (ledValue > 0 ) {
-        ledUpdate(); SET_LED
+        ledUpdate(); 
         Serial.println("RES SET_LED 1");
       } else {
         // valor igual a 0 desliga o led
@@ -66,29 +69,31 @@ void processCommand(String command) {
 
   } else if (command.indexOf("GET_LED") >= 0)
     //  retorna o valor do led atual
-    Serial.printf("RES GET_LED %d", ledGetValue());
+      Serial.printf("RES GET_LED %d", ledGetValue());
+    else if (command.indexOf("GET_LDR") >= 0)
+      Serial.printf("RES GET_LDR %d", ldrGetValue());
   else
     Serial.println("ERR Unknown command.");
 
 }
 
 
-
-
-
-
-
-
 // Função para atualizar o valor do LED
 void ledUpdate() {
   // Normalize o valor do LED antes de enviar para a porta correspondente
-  digitalWrite(PINO_LED, ledValue);
+  int val = map(ledValue, 0, 1023, 0, 255);
+//  val = map(ledValue, 0, 1023, 0, 255);
+  analogWrite(PINO_LED, val);
+ 
 }
 
 
 // Função para ler o valor do LDR
 int ldrGetValue() {
+  int sensorValue = analogRead(PINO_LDR);
+  return sensorValue;
   // Leia o sensor LDR e retorne o valor normalizado
+  
 }
 
 
