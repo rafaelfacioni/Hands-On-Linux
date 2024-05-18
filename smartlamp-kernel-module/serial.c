@@ -79,7 +79,17 @@ static int usb_read_serial() {
             printk(KERN_ERR "SmartLamp: Erro ao ler dados da USB (tentativa %d). Codigo: %d\n", ret, retries--);
             continue;
         }
-
+//        printk("%s", usb_in_buffer);
+        else{
+            printk("%s", usb_in_buffer);
+            int value = 0 ;
+            int i = 0 ;
+            for(i = 0; i < 4; i++){
+               //printk("%d", (int)usb_in_buffer[actual_size -4 + i] -48);
+               value = (value * 10) + ((int)usb_in_buffer[actual_size -4 + i] -48);
+            }
+            return value;
+        } 
         //caso tenha recebido a mensagem 'RES_LDR X' via serial acesse o buffer 'usb_in_buffer' e retorne apenas o valor da resposta X
         //retorne o valor de X em inteiro
         return 0;
