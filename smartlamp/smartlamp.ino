@@ -32,7 +32,7 @@ void setup() {
   pinMode(PINO_LDR, INPUT);
   analogWrite(PINO_LED,ledValue);
   Serial.begin(9600);
-  processCommand("GET_LDR");
+  //processCommand("GET_LDR");
 }
 
 void loop() {
