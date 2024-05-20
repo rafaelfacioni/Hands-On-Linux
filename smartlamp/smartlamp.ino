@@ -29,9 +29,10 @@ int ldrMax;
 
 void setup() {
   pinMode(PINO_LED, OUTPUT);
-  pinMode(PINO_LDR, OUTPUT);
+  pinMode(PINO_LDR, INPUT);
   analogWrite(PINO_LED,ledValue);
   Serial.begin(9600);
+  processCommand("GET_LDR");
 }
 
 void loop() {
