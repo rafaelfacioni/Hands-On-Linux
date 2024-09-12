@@ -10,7 +10,7 @@ int ldrMax;
 
 const int channel = 0;
 const int frequency = 5000;
-const int resolution = 12;
+const int resolution = 8;
 
 void setup() {
     Serial.begin(9600);
@@ -21,7 +21,7 @@ void setup() {
       //set the resolution to 12 bits (0-4095)
     analogReadResolution(resolution);
     
-    ledcAttach(ledPin, frequency, resolution);
+    // ledcAttach(ledPin, frequency, resolution);
 
     Serial.printf("SmartLamp Initialized.\n");
 
@@ -31,9 +31,9 @@ void setup() {
 // Função loop será executada infinitamente pelo ESP32
 void loop() {
     ldrMax = analogRead(ldrPin);
-    // Serial.printf("Ldr Value = %d\r\n",ldrMax);
-    //analogWrite(ledPin, ldrMax);
-    ledcWrite(ledPin, ldrMax);
+    Serial.printf("Ldr Value = %d\r\n",ldrMax);
+    analogWrite(ledPin, ldrMax);
+    // ledcWrite(ledPin, ldrMax);
     //digitalWrite(ledPin,1);
 
     // for (int i = 0; i <= 4095; i++) { 
