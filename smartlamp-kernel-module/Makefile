@@ -1,4 +1,5 @@
-obj-m += probe.o
+#obj-m += probe.o
+obj-m += serial.o
 PWD := $(CURDIR)
 
 all:
