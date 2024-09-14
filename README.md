@@ -20,7 +20,7 @@ Bem-vindo ao repositório da Equipe 0X do HandsON de Linux do DevTITANS! Este pr
 <img src="./assets/igor-card.png" width="180" >
 <img src="./assets/rafael-card.png" width="180" >
 <img src="./assets/pedro-card.png" width="180" >
-<img src="./assets/antonio-card.png" width="180" >
+<img src="./assets/antonio-cartao.png" width="180" >
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
 
 - **Rafael Scalabrin:** Desenvolvedor do Firmware e Mantenedor do Projeto
