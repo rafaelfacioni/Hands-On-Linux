@@ -1,17 +1,31 @@
+#include <DHT.h>
+#include <DHT_U.h>
+
+// Defina os pinos de LED e LDR
+// Defina uma variável com valor máximo do LDR (4000)
 // Defina os pinos de LED e LDR
 // Defina uma variável com valor máximo do LDR (4000)
 // Defina uma variável para guardar o valor atual do LED (10)
 #define LED_DEFAULT_INTENSITY 25
 #define ANALOG_RESOLTION 8
-#define LDR_MAX_INTENSITY 195
+#define LDR_MAX_INTENSITY 195 
 #define LED_PIN 5
 #define LDR_PIN 4
+#define DHTPIN 15         // GPIO conectado ao pino de dados do DHT22
+#define DHTTYPE DHT22    // DHT 22 (AM2302)
+
+// Instancia o sensor DHT
+DHT dht(DHTPIN, DHTTYPE);
 
 int ledIntensity = 25;
+
+String metric = "Celsius";  // Pode ser "Celsius" ou "Fahrenheit"
+String scale = "°C";        // Unidade associada à métrica
 
 void setup()
 {
     Serial.begin(9600);
+    dht.begin();
     
     pinMode(LED_PIN, OUTPUT);
     pinMode(LDR_PIN, INPUT);
@@ -35,6 +49,25 @@ void loop()
     cmd.trim(); // Remove any extra spaces or newlines
     processCommand(cmd);
   }
+
+    delay(2000);  // Espera 2 segundos entre as leituras
+
+  // Obter temperatura e umidade
+  float temperature = get_temp();
+  float humidity = get_hum();
+  
+  // Se as leituras forem válidas, exibe os resultados no Serial Monitor
+  if (temperature != -1 && humidity != -1) {
+    Serial.print("Temperatura: ");
+    Serial.print(temperature);
+    Serial.print(" ");
+    Serial.println(scale);
+
+    Serial.print("Umidade: ");
+    Serial.print(humidity);
+    Serial.println(" %");
+  }
+
 }
 
 
@@ -98,4 +131,38 @@ int ldrGetValue()
     // Leia o sensor LDR e retorne o valor normalizado entre 0 e 100
     // faça testes para encontrar o valor maximo do ldr (exemplo: aponte a lanterna do celular para o sensor)       
     // Atribua o valor para a variável ldrMax e utilize esse valor para a normalização
+}
+
+// Função para obter a temperatura
+float get_temp() {
+  float temp;
+  
+  if (metric == "Celsius") {
+    temp = dht.readTemperature(); // Lê temperatura em Celsius
+    scale = "°C";
+  } else {
+    temp = dht.readTemperature(true); // Lê temperatura em Fahrenheit
+    scale = "°F";
+  }
+  
+  // Verifica se a leitura foi bem-sucedida
+  if (isnan(temp)) {
+    Serial.println("Falha ao ler do sensor DHT!");
+    return -1;
+  }
+
+  return temp;
+}
+
+// Função para obter a umidade
+float get_hum() {
+  float hum = dht.readHumidity();  // Lê umidade
+  
+  // Verifica se a leitura foi bem-sucedida
+  if (isnan(hum)) {
+    Serial.println("Falha ao ler do sensor DHT!");
+    return -1;
+  }
+  
+  return hum;
 }
