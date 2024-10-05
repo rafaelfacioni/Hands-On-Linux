@@ -22,6 +22,8 @@ void setup()
     ledUpdate(LED_DEFAULT_INTENSITY);//Turns on LED with default intensity
 
     Serial.printf("SmartLamp Initialized.\n");
+
+    processCommand("GET_LDR");
 }
 
 // Função loop será executada infinitamente pelo ESP32
