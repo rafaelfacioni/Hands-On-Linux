@@ -1,0 +1,4 @@
+#Hands_On_Linux Schematic Pin Description
+
+GPIO 4 -> Analog Input   - Read LDR
+GPIO 5 -> Analog Output  - Write LED

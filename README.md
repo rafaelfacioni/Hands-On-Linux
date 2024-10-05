@@ -1,6 +1,6 @@
 
 
-# DevTITANS 05 - HandsOn Linux - Equipe 0X
+# DevTITANS 05 - HandsOn Linux - Equipe 07
 
 Bem-vindo ao repositório da Equipe 0X do HandsON de Linux do DevTITANS! Este projeto contém um firmware para o ESP32 escrito em formato Arduino `.ino`, bem como um driver do kernel Linux escrito em C. O objetivo é demonstrar como criar uma solução completa de hardware e software que integra um dispositivo ESP32 com um sistema Linux.
 
@@ -17,18 +17,17 @@ Bem-vindo ao repositório da Equipe 0X do HandsON de Linux do DevTITANS! Este pr
 
 ## Contribuidores
 
-<img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
-<img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
-<img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
-<img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
-<img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
+<img src="https://github.com/user-attachments/assets/5599ebae-e00f-4a18-ac45-d27a7e7bfe14" width="180" >
+<img src="https://github.com/user-attachments/assets/028b1cd1-bbc6-4f43-a6e6-283591fcd4ab" width="180" >
+<img src="https://github.com/user-attachments/assets/24c3c6df-aab9-45f1-9c27-76b2de791817" width="180" >
+<img src="https://github.com/user-attachments/assets/4d879c66-1ec9-44b6-8421-de5b18e01298" width="180" >
 <img src="https://github.com/DevTITANS05/Hands-On-Linux-fork-/assets/21023906/85e61f3e-476c-47a4-82d5-4054e856c67b" width="180" >
 
-- **Nome do(a) Aluno(a) 01:** Desenvolvedor do Firmware e Mantenedor do Projeto
-- **Nome do(a) Aluno(a) 02:** Desenvolvedor do Firmware
-- **Nome do(a) Aluno(a) 03:** Desenvolvedor do Driver Linux
-- **Nome do(a) Aluno(a) 04:** Desenvolvedor do Driver Linux
-- **Nome do(a) Aluno(a) 05:** Desenvolvedor do Firmware e Escritor da Documentação
+- **Rafael Scalabrin:** Desenvolvedor do Firmware e Mantenedor do Projeto
+- **Pedro Jorge:** Desenvolvedor do Firmware
+- **Igor Carvalho:** Desenvolvedor do Driver Linux
+- **Felipe Vilhena:** Desenvolvedor do Driver Linux
+- **Antonio José:** Desenvolvedor do Firmware e Escritor da Documentação
 
 ## Introdução
 
@@ -141,4 +140,4 @@ Depois que o driver e o firmware estiverem configurados, você poderá interagir
     
 ## Contato
 
-Para perguntas, sugestões ou feedback, entre em contato com o mantenedor do projeto em [maintainer@example.com](mailto:maintainer@example.com).
+Para perguntas, sugestões ou feedback, entre em contato com o mantenedor do projeto em [rafaell.facionisca@gmail.com](mailto:rafaell.facionisca@gmail.com).
