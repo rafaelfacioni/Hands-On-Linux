@@ -1,4 +1,5 @@
 #Hands_On_Linux Schematic Pin Description
 
-GPIO 4 -> Analog Input   - Read LDR
-GPIO 5 -> Analog Output  - Write LED
+GPIO 4  -> Analog Input   - Read LDR
+GPIO 5  -> Analog Output  - Write LED
+GPIO 15 -> Analog Output  - DHT Pin
