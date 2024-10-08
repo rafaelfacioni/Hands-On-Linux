@@ -176,3 +176,36 @@ float get_hum()
     
     return hum;
 }
+
+void usb_write_serial(const char* cmd)
+{
+    Serial.print(cmd);
+    Serial.print("\n"); // Envia uma nova linha para indicar o fim do comando
+}
+
+String usb_read_serial()
+{
+    String response = "";
+    while (Serial.available())
+    {
+        response = Serial.readStringUntil('\n'); // Lê até encontrar uma nova linha
+    }
+    return response;
+}
+
+int usb_send_cmd(const char* command, int param)
+{
+    // Monta o comando completo com o parâmetro
+    String cmd = String(command) + " " + String(param);
+
+    // Envia o comando
+    usb_write_serial(cmd.c_str());
+
+    // Aguarda e lê a resposta
+    String response = usb_read_serial();
+
+    // Converte a resposta em um inteiro e retorna
+    int result = response.toInt();
+    return result;
+}
+
