@@ -50,8 +50,6 @@ void loop()
         cmd.trim(); // Remove any extra spaces or newlines
         processCommand(cmd);
     }
-
-    delay(2000);  // Espera 2 segundos entre as leituras
 }
 
 void processCommand(String command)
@@ -73,21 +71,19 @@ void processCommand(String command)
     else if (command.equals("GET_LED"))
     {
         int ledValue = map(ledIntensity, 0, 255, 0, 100); // Convert back to 0-100 range
-        Serial.printf("RES GET_LED %d\r\n", ledValue);
+        Serial.printf("RES GET_LED %d\n", ledValue);
     }
     else if (command.equals("GET_LDR"))
     {
         int ldrValue = ldrGetValue(); // Get LDR value
-        Serial.printf("RES GET_LDR %d\r\n", ldrValue);
+        Serial.printf("RES GET_LDR %d\n", ldrValue);
     }
     else if (command.equals("GET_TEMP"))
     {
         float temperature = get_temp();
         if (temperature != -1)
         {
-            Serial.print("Temperatura: ");
-            Serial.print(temperature);
-            Serial.println(scale);
+          Serial.printf("RES GET_TEMP %d\n",int(temperature));
         }
     }
     else if (command.equals("GET_HUM"))
@@ -95,14 +91,12 @@ void processCommand(String command)
         float humidity = get_hum();
         if (humidity != -1)
         {
-            Serial.print("Umidade: ");
-            Serial.print(humidity);
-            Serial.println(" %");
+          Serial.printf("RES GET_HUM %d\n",int(humidity));
         }
     }
     else
     {
-        Serial.printf("ERR Unknown command.\r\n");
+        Serial.printf("ERR Unknown command.\n");
     }
 }
 
@@ -140,7 +134,6 @@ int ldrGetValue()
 float get_temp()
 {
     float temp;
-    
     if (metric == "Celsius")
     {
         temp = dht.readTemperature(); // Lê temperatura em Celsius
@@ -151,14 +144,12 @@ float get_temp()
         temp = dht.readTemperature(true); // Lê temperatura em Fahrenheit
         scale = "°F";
     }
-    
     // Verifica se a leitura foi bem-sucedida
     if (isnan(temp))
     {
         Serial.println("Falha ao ler do sensor DHT!");
         return -1;
     }
-
     return temp;
 }
 
@@ -208,4 +199,3 @@ int usb_send_cmd(const char* command, int param)
     int result = response.toInt();
     return result;
 }
-
