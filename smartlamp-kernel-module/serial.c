@@ -22,7 +22,8 @@ static const struct usb_device_id id_table[] = { { USB_DEVICE(VENDOR_ID, PRODUCT
 static int  usb_probe(struct usb_interface *ifce, const struct usb_device_id *id); // Executado quando o dispositivo é conectado na USB
 static void usb_disconnect(struct usb_interface *ifce);                           // Executado quando o dispositivo USB é desconectado da USB
 static int  usb_read_serial(void);      
-static int  usb_write_serial(char *cmd, int param);                                                                                             // Executado para ler a saida da porta serial
+static int  usb_write_serial(char *cmd, int param);
+int extract_value_from_response(char* input, int cmd_len, int input_len);                                                                                   // Executado para ler a saida da porta serial
 
 MODULE_DEVICE_TABLE(usb, id_table);
 bool ignore = true;
@@ -52,7 +53,7 @@ static int usb_probe(struct usb_interface *interface, const struct usb_device_id
     usb_in_buffer = kmalloc(usb_max_size, GFP_KERNEL);
     usb_out_buffer = kmalloc(usb_max_size, GFP_KERNEL);
 
-    usb_write_serial("GET_LDR", -1);
+    usb_write_serial("GET_HUM", -1);
 
     LDR_value = usb_read_serial();
 
@@ -115,7 +116,7 @@ static int usb_read_serial() {
         }
         // append readed bytes to buffer
         total_bytes+=actual_size; 
-        printk(KERN_INFO "SmartLamp: usb_bulk_msg readed %d bytes (tentativa %d) usb_in_buffer -> %s\n", actual_size, retries, usb_in_buffer);                
+        //printk(KERN_INFO "SmartLamp: usb_bulk_msg readed %d bytes (tentativa %d) usb_in_buffer -> %s\n", actual_size, retries, usb_in_buffer);                
         strcat(buffer, usb_in_buffer);
 
         if(total_bytes > 0 && buffer[total_bytes - 1] == '\n'){
@@ -128,18 +129,29 @@ static int usb_read_serial() {
                 strncpy(slice_cmd, buffer, 11);
                 printk(KERN_INFO "SmartLamp: slice_cmd message %s", slice_cmd);
                 if(strcmp(slice_cmd, "RES GET_LDR") == 0){
-                    char slice_value[100];
-                    memset(slice_value, 0 , 100);
-                    strncpy(slice_value, buffer+12, total_bytes - 12 - 1);
-                    printk(KERN_INFO "SmartLamp: slice_value message >%s<", slice_value);
-                    int result = -1;
-                    int converr = kstrtoint(slice_value, 10, &result);
-                    //printk(KERN_INFO "SmartLamp: RESULT converted %d, err: %d", result, converr);
-                    if(converr){   
-                        printk(KERN_ERR "SmartLamp: Erro ao converter valor para inteiro. Codigo: %d\n", converr);
-                    }else{
-                        return result;
-                    }
+                   return extract_value_from_response(buffer, 11, total_bytes);
+                }
+            }
+
+            // try parse RES GET_TEMP X
+            if(total_bytes >= 14){
+                char slice_cmd[100];
+                memset(slice_cmd, 0 , 100);
+                strncpy(slice_cmd, buffer, 12);
+                printk(KERN_INFO "SmartLamp: slice_cmd message %s", slice_cmd);
+                if(strcmp(slice_cmd, "RES GET_TEMP") == 0){
+                    return extract_value_from_response(buffer, 12, total_bytes);
+                }
+            }
+
+            // try parse RES GET_HUM X
+            if(total_bytes >= 13){
+                char slice_cmd[100];
+                memset(slice_cmd, 0 , 100);
+                strncpy(slice_cmd, buffer, 11);
+                printk(KERN_INFO "SmartLamp: slice_cmd message %s", slice_cmd);
+                if(strcmp(slice_cmd, "RES GET_HUM") == 0){
+                    return extract_value_from_response(buffer, 11, total_bytes);
                 }
             }
 
@@ -151,4 +163,20 @@ static int usb_read_serial() {
     }
 
     return -1; 
+}
+
+int extract_value_from_response(char* input, int cmd_len, int input_len){
+    char slice_value[100];
+    memset(slice_value, 0 , 100);
+    strncpy(slice_value, input+cmd_len+1, input_len - (cmd_len + 1) -1);
+    printk(KERN_INFO "SmartLamp: slice_value message >%s<", slice_value);
+    int result = -1;
+    int converr = kstrtoint(slice_value, 10, &result);
+    //printk(KERN_INFO "SmartLamp: RESULT converted %d, err: %d", result, converr);
+    if(converr){   
+        printk(KERN_ERR "SmartLamp: Erro ao converter valor para inteiro. Codigo: %d\n", converr);
+        return -1;
+    }else{
+        return result;
+    }
 }
